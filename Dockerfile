@@ -1,5 +1,7 @@
-FROM nginx:alpine
+FROM nginxinc/nginx-unprivileged:alpine
 
-COPY index.html style.css script.js /usr/share/nginx/html/
+COPY --chown=nginx:nginx index.html style.css script.js /usr/share/nginx/html/
 
-EXPOSE 80
+USER nginx
+
+EXPOSE 8080
