@@ -25,8 +25,8 @@ jobs:
 
       - name: Run automated tests
         run: node --test
-      
-            - name: Run Trivy security scan
+
+      - name: Run Trivy security scan
         uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: 'fs'
