@@ -37,4 +37,7 @@ jobs:
           exit-code: '1'
         
       - name: Build Docker image
-        run: docker build -t student-management:latest .
+        run: |
+          docker build \
+            -t student-management:latest \
+            -t student-management:${{ github.sha }} .
