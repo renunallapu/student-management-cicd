@@ -57,3 +57,4 @@ jobs:
 
       - name: Push Docker Image
         run: docker push renunallapu/student-management:latest
+             docker push renunallapu/student-management:${{ github.sha }}
