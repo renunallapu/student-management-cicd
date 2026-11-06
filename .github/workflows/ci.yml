@@ -53,6 +53,7 @@ jobs:
 
       - name: Tag Docker Image
         run: docker tag student-management:latest renunallapu/student-management:latest
+              docker tag student-management:${{ github.sha }} renunallapu/student-management:${{ github.sha }}
 
       - name: Push Docker Image
         run: docker push renunallapu/student-management:latest
