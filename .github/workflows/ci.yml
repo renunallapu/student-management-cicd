@@ -66,3 +66,22 @@ jobs:
 
     environment:
       name: production
+    steps:
+      - name: Connect to Production EC2
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.PROD_SSH_KEY }}" > ~/.ssh/production-key.pem
+          chmod 400 ~/.ssh/production-key.pem
+          ssh-keyscan -H ${{ secrets.PROD_HOST }} >> ~/.ssh/known_hosts
+      - name: Deploy Application to Production
+        run: |
+          ssh -i ~/.ssh/production-key.pem \
+            ${{ secrets.PROD_USER }}@${{ secrets.PROD_HOST }} \
+            "sudo docker pull renunallapu/student-management:${{ github.sha }} &&
+             (sudo docker stop student-management-prod || true) &&
+             (sudo docker rm student-management-prod || true) &&
+             sudo docker run -d \
+               --name student-management-prod \
+               --restart unless-stopped \
+               -p 80:8080 \
+               renunallapu/student-management:${{ github.sha }}"
